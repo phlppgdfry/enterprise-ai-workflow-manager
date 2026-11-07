@@ -1,4 +1,6 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import HTMLResponse, FileResponse
+from pathlib import Path
 from typing import List, Dict, Any
 from .models import WorkflowCreate, WorkflowRunRequest, ApprovalDecisionRequest, WorkflowRunDetail
 from .engine import WorkflowEngine
@@ -10,6 +12,7 @@ app = FastAPI(
 )
 
 engine = WorkflowEngine()
+FRONTEND_FILE = Path(__file__).parent.parent / "frontend" / "index.html"
 
 # Seed een initiële workflow
 _seed_id = engine.register_workflow(
@@ -19,7 +22,13 @@ _seed_id = engine.register_workflow(
     requires_approval=True
 )
 
-@app.get("/")
+@app.get("/", response_class=HTMLResponse)
+def index():
+    if FRONTEND_FILE.exists():
+        return FileResponse(FRONTEND_FILE)
+    return HTMLResponse("<h1>Enterprise AI Workflow Manager</h1><p>Frontend file missing.</p>")
+
+@app.get("/health")
 def health_check():
     return {
         "service": "Enterprise AI Workflow Manager",
