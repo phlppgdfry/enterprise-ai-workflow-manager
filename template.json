@@ -1,0 +1,17 @@
+{
+  "name": "Enterprise AI Workflow Manager",
+  "description": "Production-ready Human-in-the-Loop workflow engine with cryptographic SHA-256 audit logs, PostgreSQL persistence, and built-in Model Context Protocol (MCP) server.",
+  "category": "Enterprise & Automation",
+  "language": "python",
+  "tags": [
+    "enterprise",
+    "workflow-automation",
+    "mcp",
+    "human-in-the-loop",
+    "governance",
+    "fastapi",
+    "postgresql"
+  ],
+  "author": "Philippe Godfroy",
+  "icon": "shield-check"
+}

@@ -1,6 +1,7 @@
 import pytest
 from backend.engine import WorkflowEngine
 from backend.models import RunStatus
+from backend.mcp_server import AVAILABLE_TOOLS, execute_mcp_tool, MCPCallRequest
 
 def test_workflow_registration_and_audit():
     engine = WorkflowEngine()
@@ -58,4 +59,11 @@ def test_rejection_halts_execution_cleanly():
     updated = engine.record_decision(run.id, "manager-99", "REJECTED", reason="Buiten kwartaalbudget")
     assert updated.status == RunStatus.REJECTED
     assert "Afgekeurd" in updated.output_result["error"]
-    assert len(updated.steps) == 1  # Geen stap 2 uitgevoerd
+    assert len(updated.steps) == 1
+
+def test_mcp_platform_extension():
+    """Valideert Level 5 Master Builder: Platform Extensie via MCP tools."""
+    assert len(AVAILABLE_TOOLS) >= 2
+    tool_names = [t.name for t in AVAILABLE_TOOLS]
+    assert "trigger_governed_workflow" in tool_names
+    assert "query_audit_trail" in tool_names

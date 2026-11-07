@@ -4,12 +4,15 @@ from pathlib import Path
 from typing import List, Dict, Any
 from .models import WorkflowCreate, WorkflowRunRequest, ApprovalDecisionRequest, WorkflowRunDetail
 from .engine import WorkflowEngine
+from .mcp_server import mcp_router
 
 app = FastAPI(
     title="Enterprise AI Workflow Manager API",
     description="Productieklare orchestrator voor AI-bedrijfsprocessen met Human-in-the-Loop governance.",
     version="1.0.0"
 )
+
+app.include_router(mcp_router)
 
 engine = WorkflowEngine()
 FRONTEND_FILE = Path(__file__).parent.parent / "frontend" / "index.html"
